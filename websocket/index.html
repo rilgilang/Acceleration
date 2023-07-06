@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- websockets.html -->
+    <input id="token" type="text" />
+    <button onclick="login()">login</button>
+    <pre id="loginStatus"></pre>
+
+    <div>
+        <input id="input" type="text" />
+        <button onclick="send()">send</button>
+    </div>
+
+    <script>
+        var token = document.getElementById("token")
+        var socket;
+        var loginStatus = document.getElementById("loginStatus");
+        var input = document.getElementById("input");
+        var output = document.getElementById("output");
+
+
+        if (socket.onopen === true){
+            loginStatus.innerHTML += "Status: Connected\n";
+        };
+
+        socket.onmessage = function (e) {
+            output.innerHTML += "Server: " + e.data + "\n";
+        };
+
+        function login() {
+            socket = new WebSocket(`ws://localhost:8081/${token}`);
+        }
+
+        function send() {
+            socket.send(input.value);
+            input.value = "";
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
