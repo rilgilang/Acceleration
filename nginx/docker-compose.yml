@@ -1,0 +1,19 @@
+version: '3'
+services:
+  akselerasi-nginx:
+    container_name: akselerasi-nginx
+    network_mode: privy-network
+    image: nginx:1.15
+    restart: always
+    volumes:
+      - ./service_storage:/etc/nginx/conf.d
+      - /var/www/html/shared:/var/www/html/shared
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    ports:
+      - "80:80"
+      - "443:443"
+    expose:
+      - "80"
+      - "443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload;done & nginx -g \"daemon off;\"'"
